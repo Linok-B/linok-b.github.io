@@ -1,23 +1,31 @@
-// Login Modal
+// JavaScript for Firebase Authentication
 document.addEventListener('DOMContentLoaded', () => {
-    const loginModal = document.getElementById('loginModal');
     const loginBtn = document.getElementById('loginBtn');
-    const closeBtn = document.getElementsByClassName('close')[0];
+    const loginForm = document.getElementById('loginForm');
 
-    // Open the login modal
+    // Show login modal
     loginBtn.onclick = () => {
-        loginModal.style.display = 'block';
+        $('#loginModal').modal('show');
     };
 
-    // Close the login modal
-    closeBtn.onclick = () => {
-        loginModal.style.display = 'none';
-    };
+    // Handle login form submission
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    // Close the modal when clicking outside of it
-    window.onclick = (event) => {
-        if (event.target == loginModal) {
-            loginModal.style.display = 'none';
-        }
-    };
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Successful login
+                alert('Logged in successfully!');
+                $('#loginModal').modal('hide');
+                // Redirect to a logged-in page or show logged-in content
+            })
+            .catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(`Error: ${errorMessage}`);
+            });
+    });
 });
