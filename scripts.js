@@ -1,13 +1,15 @@
 // Initialize Firebase
 document.addEventListener('DOMContentLoaded', () => {
     // Replace this config object with your project's configuration from Firebase Console
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyDOGKrv0h7vxmUtrhTG3NaSZqXep7lnvLA",
+        authDomain: "linok-github-io.firebaseapp.com",
+        projectId: "linok-github-io",
+        storageBucket: "linok-github-io.appspot.com",
+        messagingSenderId: "644902002590",
+        appId: "1:644902002590:web:5c2c2c70c50e531fb9408f",
+        // measurementId: "G-SWYRCWSL2D"
     };
 
     // Initialize Firebase
