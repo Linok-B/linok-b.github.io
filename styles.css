@@ -25,6 +25,14 @@ body {
     margin-top: 50px;
 }
 
+/* Form container */
+.form-container {
+    background-color: #1a1a1a; /* Dark grey form background */
+    border: 1px solid var(--primary-color); /* Orange outline */
+    border-radius: 10px;
+    color: var(--text-color);
+}
+
 /* Buttons */
 .btn-primary {
     background-color: var(--primary-color);
@@ -57,7 +65,7 @@ body {
 /* Forms */
 .form-control {
     border-color: var(--primary-color);
-    background-color: #333;
+    background-color: #333; /* Dark input background */
     color: var(--text-color);
 }
 
