@@ -31,22 +31,22 @@
 
     <!-- Account Request Form -->
     <main class="container mt-5">
-        <h1 class="text-center mb-4">Request an Account</h1>
-        <form id="accountRequestForm" class="shadow p-4 rounded bg-light">
+        <h1 class="text-center mb-4 text-light">Request an Account</h1>
+        <form id="accountRequestForm" class="form-container shadow p-4 rounded">
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username" class="text-light">Username:</label>
                 <input type="text" id="username" name="username" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email" class="text-light">Email:</label>
                 <input type="email" id="email" name="email" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password" class="text-light">Password:</label>
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="message">Why do you want an account? (max 128 characters)</label>
+                <label for="message" class="text-light">Why do you want an account? (max 128 characters)</label>
                 <textarea id="message" name="message" class="form-control" maxlength="128" required></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
@@ -60,6 +60,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="scripts.js"></script>
+    <script type="module" src="scripts.js"></script>
 </body>
 </html>
