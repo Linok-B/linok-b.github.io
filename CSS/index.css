@@ -48,10 +48,22 @@ body {
     border-color: #c305c8;
 }
 
-/* Modal Header */
+/* Modal Styling */
+.modal-content {
+    background-color: #1a1a1a; /* Dark grey for modal background */
+    color: var(--text-color);
+    border-radius: 10px; /* Optional: rounded corners for the modal */
+    border: 2px solid var(--primary-color); /* Orange outline */
+}
+
 .modal-header {
     background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
     color: white;
+}
+
+/* Modal body */
+.modal-body {
+    background-color: #1a1a1a; /* Ensure modal body matches modal background */
 }
 
 /* Navigation Bar */
