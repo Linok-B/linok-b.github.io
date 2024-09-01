@@ -1,0 +1,59 @@
+/* login.css */
+
+/* Apply the custom font */
+body, h1, label, input, button, p {
+    font-family: 'Roboto', sans-serif;
+    color: #f5f5f5; /* Light color for text against dark background */
+}
+
+/* Main color palette */
+:root {
+    --primary-color: #fa7b05; /* Orange */
+    --background-color: #050505; /* Black background */
+    --text-color: #f5f5f5; /* Light grey text for contrast */
+    --button-hover-color: #e77f07; /* Hover effect for buttons */
+}
+
+/* Background */
+body {
+    background-color: var(--background-color);
+}
+
+/* Login form container */
+.login-form {
+    background-color: #1a1a1a; /* Dark grey form background */
+    border: 2px solid var(--primary-color); /* Orange outline */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 400px;
+    margin: 0 auto; /* Center align the form */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--button-hover-color);
+    border-color: var(--button-hover-color);
+}
+
+a.text-primary {
+    color: var(--primary-color);
+}
+
+a.text-primary:hover {
+    color: var(--button-hover-color);
+}
+
+.form-control {
+    background-color: #333; /* Dark input background */
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(250, 123, 5, 0.25);
+}
