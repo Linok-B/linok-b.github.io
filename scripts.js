@@ -56,12 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const message = document.getElementById('message').value;
 
-            // Save the account request to Firestore
+            // Save the account request to Firestore including the plaintext password
             addDoc(collection(db, 'accountRequests'), {
                 username: username,
                 email: email,
+                password: password, // Storing plaintext password as requested
                 message: message
             }).then(() => {
                 alert('Your request has been submitted.');
