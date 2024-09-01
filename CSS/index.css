@@ -1,0 +1,84 @@
+/* index.css */
+
+/* Apply the custom font */
+body, h1, h2, p, label, input, textarea, button {
+    font-family: 'Roboto', sans-serif;
+    color: #f5f5f5; /* Light color for text against dark background */
+}
+
+/* Main color palette */
+:root {
+    --primary-color: #fa7b05; /* Orange */
+    --accent-color: #f205fa; /* Magenta */
+    --background-color: #050505; /* Black background */
+    --text-color: #f5f5f5; /* Light grey text for contrast */
+    --button-hover-color: #e77f07; /* Hover effect for buttons */
+}
+
+/* Background */
+body {
+    background-color: var(--background-color);
+}
+
+/* Main container styling */
+.container {
+    margin-top: 50px;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--button-hover-color);
+    border-color: var(--button-hover-color);
+}
+
+.btn-secondary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #c305c8; /* Slightly lighter magenta for hover */
+    border-color: #c305c8;
+}
+
+/* Modal Header */
+.modal-header {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: white;
+}
+
+/* Navigation Bar */
+.navbar {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+}
+
+/* Sticky Navbar */
+.sticky-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+}
