@@ -32,8 +32,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = "index.html";
                 })
                 .catch((error) => {
-                    alert(`Error: ${error.message}`);
+                    showPopup("Error", `Error logging in: ${error.message}`);
                 });
         });
+    }
+
+    // Function to show custom pop-up
+    function showPopup(title, message) {
+        const popupContainer = document.createElement('div');
+        popupContainer.classList.add('popup-container');
+        popupContainer.innerHTML = `
+            <div class="popup-content">
+                <h4>${title}</h4>
+                <p>${message}</p>
+                <button class="btn btn-primary" id="closePopup">Close</button>
+            </div>
+        `;
+        document.body.appendChild(popupContainer);
+
+        const closePopup = () => {
+            popupContainer.remove();
+        };
+
+        document.getElementById('closePopup').onclick = closePopup;
+        popupContainer.onclick = (e) => {
+            if (e.target === popupContainer) {
+                closePopup();
+            }
+        };
     }
 });
