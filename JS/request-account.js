@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
             const message = document.getElementById('message').value;
 
+            // Validate password length
+            if (password.length < 6) {
+                showPopup("Error", "Password must be at least 6 characters long.");
+                return;
+            }
+
             // Save the account request to Firestore including the plaintext password
             addDoc(collection(db, 'accountRequests'), {
                 username: username,
@@ -35,11 +41,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 password: password, // Storing plaintext password as requested
                 message: message
             }).then(() => {
-                alert('Your request has been submitted.');
-                accountRequestForm.reset();
+                showPopup("Success", "Your account request has been submitted. It will be reviewed by an admin.", true);
             }).catch((error) => {
-                console.error('Error submitting request: ', error);
+                showPopup("Error", `Error submitting request: ${error.message}`);
             });
         });
+    }
+
+    // Function to show custom pop-up
+    function showPopup(title, message, redirect = false) {
+        const popupContainer = document.createElement('div');
+        popupContainer.classList.add('popup-container');
+        popupContainer.innerHTML = `
+            <div class="popup-content">
+                <h4>${title}</h4>
+                <p>${message}</p>
+                <button class="btn btn-primary" id="closePopup">Close</button>
+            </div>
+        `;
+        document.body.appendChild(popupContainer);
+
+        const closePopup = () => {
+            popupContainer.remove();
+            if (redirect) {
+                window.location.href = "login.html";
+            }
+        };
+
+        document.getElementById('closePopup').onclick = closePopup;
+        popupContainer.onclick = (e) => {
+            if (e.target === popupContainer) {
+                closePopup();
+            }
+        };
     }
 });
