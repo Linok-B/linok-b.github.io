@@ -1,7 +1,7 @@
 /* index.css */
 
 /* Apply the custom font */
-body, h1, h2, p, label, input, textarea, button {
+body, h1, h2, p, button {
     font-family: 'Roboto', sans-serif;
     color: #f5f5f5; /* Light color for text against dark background */
 }
@@ -20,77 +20,87 @@ body {
     background-color: var(--background-color);
 }
 
-/* Main container styling */
-.container {
-    margin-top: 50px;
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    height: 100vh;
+    color: var(--text-color);
+    text-shadow: 1px 1px 5px #000;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
-/* Buttons */
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+.hero-section h1 {
+    font-size: 4rem;
+    animation: slideInDown 1s ease-in-out;
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.hero-section button {
+    margin-top: 20px;
+    animation: pulse 2s infinite;
+}
+
+.about-section, .cta-section {
+    background-color: #1a1a1a;
     color: var(--text-color);
 }
 
-.btn-primary:hover {
-    background-color: var(--button-hover-color);
-    border-color: var(--button-hover-color);
+.about-section h2, .cta-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
-.btn-secondary {
+.cta-section button {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
     color: var(--text-color);
 }
 
-.btn-secondary:hover {
-    background-color: #c305c8; /* Slightly lighter magenta for hover */
-    border-color: #c305c8;
+.cta-section button:hover {
+    background-color: var(--button-hover-color);
+    border-color: var(--button-hover-color);
 }
 
-/* Modal Styling */
-.modal-content {
-    background-color: #1a1a1a; /* Dark grey for modal background */
+.footer {
+    background-color: #333;
     color: var(--text-color);
-    border-radius: 10px; /* Optional: rounded corners for the modal */
-    border: 2px solid var(--primary-color); /* Orange outline */
 }
 
-.modal-header {
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-    color: white;
+.footer .social-icons img {
+    width: 24px;
+    margin: 0 10px;
 }
 
-/* Modal body */
-.modal-body {
-    background-color: #1a1a1a; /* Ensure modal body matches modal background */
+.footer a:hover {
+    color: var(--primary-color);
 }
 
-/* Navigation Bar */
-.navbar {
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-/* Sticky Navbar */
-.sticky-navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1020;
-    animation: slideDown 0.3s ease-in-out;
+@keyframes slideInDown {
+    from { transform: translateY(-50px); }
+    to { transform: translateY(0); }
 }
 
-@keyframes slideDown {
-    from {
-        top: -50px;
-    }
-    to {
-        top: 0;
-    }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
-        padding: 20px;
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .hero-section p {
+        font-size: 1.2rem;
     }
 }
