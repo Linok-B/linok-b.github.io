@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Home - My Website</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom Styles -->
@@ -29,16 +29,43 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mt-5 text-center">
-        <h1 class="display-4">Welcome to My Website</h1>
-        <p class="lead">Enjoy the exclusive content once you are logged in.</p>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center justify-content-center text-center">
+        <div>
+            <h1 class="display-4">Welcome to My Website</h1>
+            <p class="lead">Discover amazing content and insights.</p>
+            <button class="btn btn-primary btn-lg">Explore</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section text-center py-5">
+        <h2>About Me</h2>
+        <p>I'm a passionate developer interested in building meaningful digital experiences. This website showcases my journey, projects, and insights.</p>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section text-center py-5">
+        <h2>Get Involved</h2>
+        <p>Interested in collaborating or just want to chat? Reach out and let's create something amazing together.</p>
+        <button class="btn btn-secondary btn-lg">Contact Me</button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-center py-3">
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><img src="icons/twitter.svg" alt="Twitter"></a>
+            <a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a>
+            <a href="#"><img src="icons/github.svg" alt="GitHub"></a>
+        </div>
+    </footer>
 
     <!-- Include Firebase and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="module" src="JS/auth-check.js"></script> <!-- Authentication check script -->
+    <!-- Auth check to ensure no access without login -->
+    <script type="module" src="JS/auth-check.js"></script>
 </body>
 </html>
