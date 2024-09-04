@@ -1,29 +1,23 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Scroll animation for sections
-    const sections = document.querySelectorAll('.about-section, .cta-section');
-    const options = {
-        threshold: 0.1
-    };
+// JavaScript for interactive elements and transitions
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
+// Redirect function
+function redirectTo(page) {
+    window.location.href = page;
+}
+
+// Scroll to section
+function scrollToSection(sectionId) {
+    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Toggle info boxes in About Me section
+const infoBoxes = document.querySelectorAll('.info-box');
+
+infoBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+        box.classList.toggle('active');
+        infoBoxes.forEach(otherBox => {
+            if (otherBox !== box) otherBox.classList.remove('active');
         });
-    }, options);
-
-    sections.forEach(section => {
-        observer.observe(section);
     });
-
-    // Redirect to specific pages on button click
-    document.querySelector('.hero-section button').onclick = () => {
-        window.location.href = "projects.html";
-    };
-
-    document.getElementById('contactBtn').onclick = () => {
-        window.location.href = "contact.html";
-    };
 });
