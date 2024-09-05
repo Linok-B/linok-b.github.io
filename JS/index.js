@@ -44,20 +44,3 @@ navLinks.forEach(link => {
         });
     });
 });
-
-// Hero section animation for decorative triangles
-function animateTriangles() {
-    const triangles = document.querySelectorAll('#hero::before, #hero::after');
-    
-    triangles.forEach((triangle, index) => {
-        setInterval(() => {
-            const randomRotation = Math.random() * 360;
-            const randomScale = Math.random() * 0.5 + 0.75;
-            triangle.style.transform = `rotate(${randomRotation}deg) scale(${randomScale})`;
-        }, 5000); // Adjust the timing as needed
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    animateTriangles(); // Call animation function when DOM is loaded
-});
