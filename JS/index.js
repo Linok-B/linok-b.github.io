@@ -51,12 +51,17 @@ function createTriangle() {
     triangle.style.left = `${randomX}%`;
     triangle.style.top = `${randomY}%`;
 
-    // Triangle mouse interaction
+    const rotationDirection = Math.random() < 0.5 ? 'rotate' : 'rotate(-'; // Random clockwise or counterclockwise rotation
+    const rotateSpeed = Math.random() * 15 + 10; // Slow spin between 10s and 25s
+    triangle.style.animation = `${rotationDirection}${360}deg) ${rotateSpeed}s infinite linear`;
+
+    // Triangle mouse interaction - move away from mouse
     window.addEventListener('mousemove', (e) => {
         const moveX = (e.clientX / window.innerWidth) * 20;
         const moveY = (e.clientY / window.innerHeight) * 20;
-        triangle.style.transform = `translate(${(randomX - moveX)}px, ${(randomY - moveY)}px)`; /* Move away from the mouse */
+        triangle.style.transform = `translate(${(randomX - moveX)}px, ${(randomY - moveY)}px)`;
     });
+
 
     heroSection.appendChild(triangle);
 }
