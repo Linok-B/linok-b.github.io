@@ -51,11 +51,17 @@ function createTriangle() {
     triangle.style.left = `${randomX}px`;
     triangle.style.top = `${randomY}px`;
 
-    // Triangle spin - clockwise or counterclockwise
+    // Set rotation and direction using JavaScript
     const isClockwise = Math.random() < 0.5; // Randomly decide direction
     const rotateSpeed = Math.random() * 15 + 10; // Slow spin between 10s and 25s
-    const rotateAnimation = isClockwise ? 'rotate(360deg)' : 'rotate(-360deg)';
-    triangle.style.animation = `${rotateAnimation} ${rotateSpeed}s infinite linear`;
+    const rotationDirection = isClockwise ? 1 : -1; // 1 for clockwise, -1 for counterclockwise
+
+    // Apply rotation using JavaScript
+    let angle = 0;
+    setInterval(() => {
+        angle += rotationDirection * 0.1; // Rotate slowly
+        triangle.style.transform = `rotate(${angle}deg)`;
+    }, 16); // 16ms for ~60fps rotation
 
     // Triangle mouse interaction - move away from mouse
     window.addEventListener('mousemove', (e) => {
@@ -70,7 +76,7 @@ function createTriangle() {
         const moveFactor = Math.max(200 - distance, 0) / 10; // Move based on distance (adjust 200 and 10 for sensitivity)
 
         // Apply movement based on direction away from the mouse
-        triangle.style.transform = `translate(${distX * moveFactor}px, ${distY * moveFactor}px)`;
+        triangle.style.transform += ` translate(${distX * moveFactor}px, ${distY * moveFactor}px)`;
     });
 
     heroSection.appendChild(triangle);
