@@ -29,6 +29,15 @@ function closeInfoBoxes() {
     overlay.classList.remove('active');
 }
 
+// Track mouse position
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
 // Triangle generation and animation
 const heroSection = document.querySelector('.triangle-container');
 
@@ -45,8 +54,8 @@ function createTriangle() {
     triangle.style.borderRight = `${size / 2}px solid transparent`;
     triangle.style.borderBottom = `${size}px solid rgba(255, 255, 255, 0.2)`;
 
-    const randomX = Math.random() * window.innerWidth; // Random position in px (not %)
-    const randomY = Math.random() * window.innerHeight;
+    let randomX = Math.random() * window.innerWidth; // Random position in px
+    let randomY = Math.random() * window.innerHeight;
     triangle.style.position = 'absolute';
     triangle.style.left = `${randomX}px`;
     triangle.style.top = `${randomY}px`;
@@ -63,21 +72,28 @@ function createTriangle() {
         triangle.style.transform = `rotate(${angle}deg)`;
     }, 16); // 16ms for ~60fps rotation
 
-    // Triangle mouse interaction - move away from mouse
-    window.addEventListener('mousemove', (e) => {
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-
-        // Calculate distance between mouse and triangle
+    // Continuously check distance from mouse and move away
+    function moveTriangle() {
         const distX = randomX - mouseX;
         const distY = randomY - mouseY;
         const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
 
-        const moveFactor = Math.max(200 - distance, 0) / 10; // Move based on distance (adjust 200 and 10 for sensitivity)
+        // Less intense movement (small ripple effect)
+        const moveFactor = Math.max(150 - distance, 0) / 40; // Adjust intensity and sensitivity
 
         // Apply movement based on direction away from the mouse
-        triangle.style.transform += ` translate(${distX * moveFactor}px, ${distY * moveFactor}px)`;
-    });
+        randomX += distX * moveFactor;
+        randomY += distY * moveFactor;
+
+        triangle.style.left = `${randomX}px`;
+        triangle.style.top = `${randomY}px`;
+
+        // Repeat movement
+        requestAnimationFrame(moveTriangle);
+    }
+
+    // Start triangle movement
+    moveTriangle();
 
     heroSection.appendChild(triangle);
 }
