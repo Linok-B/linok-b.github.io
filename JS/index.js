@@ -52,9 +52,10 @@ function createTriangle() {
     triangle.style.top = `${randomY}px`;
 
     // Triangle spin - clockwise or counterclockwise
-    const rotationDirection = Math.random() < 0.5 ? 'rotate' : 'rotate(-';
+    const isClockwise = Math.random() < 0.5; // Randomly decide direction
     const rotateSpeed = Math.random() * 15 + 10; // Slow spin between 10s and 25s
-    triangle.style.animation = `${rotationDirection}360deg) ${rotateSpeed}s infinite linear`;
+    const rotateAnimation = isClockwise ? 'rotate(360deg)' : 'rotate(-360deg)';
+    triangle.style.animation = `${rotateAnimation} ${rotateSpeed}s infinite linear`;
 
     // Triangle mouse interaction - move away from mouse
     window.addEventListener('mousemove', (e) => {
@@ -66,8 +67,8 @@ function createTriangle() {
         const distY = randomY - mouseY;
         const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
 
-        const moveFactor = Math.max(200 - distance, 0) / 50; // Move based on distance (adjust 200 and 50 for sensitivity)
-        
+        const moveFactor = Math.max(200 - distance, 0) / 10; // Move based on distance (adjust 200 and 10 for sensitivity)
+
         // Apply movement based on direction away from the mouse
         triangle.style.transform = `translate(${distX * moveFactor}px, ${distY * moveFactor}px)`;
     });
