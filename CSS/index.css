@@ -77,14 +77,24 @@ nav ul li a:hover {
 }
 
 .hero-content button {
-    padding: 15px 30px; /* Increased padding */
-    font-size: 1.2em;   /* Increased font size */
+    padding: 12px 24px; /* Slightly smaller size */
+    font-size: 1.1em;   /* Medium size */
     background-color: #fa7b05;
     color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    animation: pulse 1.5s infinite; /* Pulsating effect */
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .hero-content button:hover {
