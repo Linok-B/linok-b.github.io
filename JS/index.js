@@ -67,6 +67,7 @@ function createTriangle() {
 }
 
 // Generate multiple triangles
-for (let i = 0; i < 10; i++) {
+const triangleCount = Math.floor(Math.random() * 9) + 8; // Random number between 8 and 16
+for (let i = 0; i < triangleCount; i++) {
     createTriangle();
 }
