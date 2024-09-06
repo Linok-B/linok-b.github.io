@@ -29,18 +29,39 @@ function closeInfoBoxes() {
     overlay.classList.remove('active');
 }
 
-// Smooth scrolling for navigation links (optional enhancement)
-const navLinks = document.querySelectorAll('nav ul li a');
+// Triangle generation and animation
+const heroSection = document.querySelector('.triangle-container');
 
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
+// Generate random triangles
+function createTriangle() {
+    const triangle = document.createElement('div');
+    triangle.classList.add('triangle');
+    
+    // Random size and position
+    const size = Math.random() * 150 + 50; // Size between 50px and 200px
+    triangle.style.width = `0px`;
+    triangle.style.height = `0px`;
+    triangle.style.borderLeft = `${size / 2}px solid transparent`;
+    triangle.style.borderRight = `${size / 2}px solid transparent`;
+    triangle.style.borderBottom = `${size}px solid rgba(255, 255, 255, 0.2)`;
 
-        window.scrollTo({
-            top: targetElement.offsetTop - 60,  // Adjust offset for fixed header
-            behavior: 'smooth'
-        });
+    const randomX = Math.random() * 100; // Random position between 0% and 100% width
+    const randomY = Math.random() * 100; // Random position between 0% and 100% height
+    triangle.style.position = 'absolute';
+    triangle.style.left = `${randomX}%`;
+    triangle.style.top = `${randomY}%`;
+
+    // Triangle mouse interaction
+    window.addEventListener('mousemove', (e) => {
+        const moveX = (e.clientX / window.innerWidth) * 20;
+        const moveY = (e.clientY / window.innerHeight) * 20;
+        triangle.style.transform = `translate(${moveX}px, ${moveY}px)`;
     });
-});
+
+    heroSection.appendChild(triangle);
+}
+
+// Generate multiple triangles
+for (let i = 0; i < 10; i++) {
+    createTriangle();
+}
