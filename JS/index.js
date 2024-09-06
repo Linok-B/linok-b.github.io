@@ -55,7 +55,7 @@ function createTriangle() {
     window.addEventListener('mousemove', (e) => {
         const moveX = (e.clientX / window.innerWidth) * 20;
         const moveY = (e.clientY / window.innerHeight) * 20;
-        triangle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        triangle.style.transform = `translate(${(randomX - moveX)}px, ${(randomY - moveY)}px)`; /* Move away from the mouse */
     });
 
     heroSection.appendChild(triangle);
