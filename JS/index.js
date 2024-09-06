@@ -45,29 +45,38 @@ function createTriangle() {
     triangle.style.borderRight = `${size / 2}px solid transparent`;
     triangle.style.borderBottom = `${size}px solid rgba(255, 255, 255, 0.2)`;
 
-    const randomX = Math.random() * 100; // Random position between 0% and 100% width
-    const randomY = Math.random() * 100; // Random position between 0% and 100% height
+    const randomX = Math.random() * window.innerWidth; // Random position in px (not %)
+    const randomY = Math.random() * window.innerHeight;
     triangle.style.position = 'absolute';
-    triangle.style.left = `${randomX}%`;
-    triangle.style.top = `${randomY}%`;
+    triangle.style.left = `${randomX}px`;
+    triangle.style.top = `${randomY}px`;
 
-    const rotationDirection = Math.random() < 0.5 ? 'rotate' : 'rotate(-'; // Random clockwise or counterclockwise rotation
+    // Triangle spin - clockwise or counterclockwise
+    const rotationDirection = Math.random() < 0.5 ? 'rotate' : 'rotate(-';
     const rotateSpeed = Math.random() * 15 + 10; // Slow spin between 10s and 25s
-    triangle.style.animation = `${rotationDirection}${360}deg) ${rotateSpeed}s infinite linear`;
+    triangle.style.animation = `${rotationDirection}360deg) ${rotateSpeed}s infinite linear`;
 
     // Triangle mouse interaction - move away from mouse
     window.addEventListener('mousemove', (e) => {
-        const moveX = (e.clientX / window.innerWidth) * 20;
-        const moveY = (e.clientY / window.innerHeight) * 20;
-        triangle.style.transform = `translate(${(randomX - moveX)}px, ${(randomY - moveY)}px)`;
-    });
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
 
+        // Calculate distance between mouse and triangle
+        const distX = randomX - mouseX;
+        const distY = randomY - mouseY;
+        const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
+
+        const moveFactor = Math.max(200 - distance, 0) / 50; // Move based on distance (adjust 200 and 50 for sensitivity)
+        
+        // Apply movement based on direction away from the mouse
+        triangle.style.transform = `translate(${distX * moveFactor}px, ${distY * moveFactor}px)`;
+    });
 
     heroSection.appendChild(triangle);
 }
 
-// Generate multiple triangles
-const triangleCount = Math.floor(Math.random() * 9) + 8; // Random number between 8 and 16
+// Generate a random number of triangles between 8 and 16
+const triangleCount = Math.floor(Math.random() * 9) + 8;
 for (let i = 0; i < triangleCount; i++) {
     createTriangle();
 }
