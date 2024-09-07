@@ -81,8 +81,8 @@ function createTriangle() {
         const distY = currentY - mouseY;
         const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
 
-        // Define how close the mouse needs to be to push the triangle
-        const moveDistance = size * 1.5; // Threshold based on size of the triangle
+        // Larger triangles move when the mouse is further away (increase with size)
+        const moveDistance = size * 1.5; // Larger triangles = larger moveDistance
 
         if (distance < moveDistance) {
             // Move triangle away from mouse when close
