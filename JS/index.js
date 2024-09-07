@@ -46,19 +46,22 @@ function createTriangle() {
     const triangle = document.createElement('div');
     triangle.classList.add('triangle');
     
-    // Random size and position
+    // Random size and initial position (home position)
     const size = Math.random() * 150 + 50; // Size between 50px and 200px
+    const homeX = Math.random() * window.innerWidth;
+    const homeY = Math.random() * window.innerHeight;
+
     triangle.style.width = `0px`;
     triangle.style.height = `0px`;
     triangle.style.borderLeft = `${size / 2}px solid transparent`;
     triangle.style.borderRight = `${size / 2}px solid transparent`;
     triangle.style.borderBottom = `${size}px solid rgba(255, 255, 255, 0.2)`;
 
-    let randomX = Math.random() * window.innerWidth; // Random position in px
-    let randomY = Math.random() * window.innerHeight;
+    let currentX = homeX; // Current position starts at home position
+    let currentY = homeY;
     triangle.style.position = 'absolute';
-    triangle.style.left = `${randomX}px`;
-    triangle.style.top = `${randomY}px`;
+    triangle.style.left = `${currentX}px`;
+    triangle.style.top = `${currentY}px`;
 
     // Set rotation and direction using JavaScript
     const isClockwise = Math.random() < 0.5; // Randomly decide direction
@@ -72,21 +75,28 @@ function createTriangle() {
         triangle.style.transform = `rotate(${angle}deg)`;
     }, 16); // 16ms for ~60fps rotation
 
-    // Continuously check distance from mouse and move away
+    // Continuously check distance from mouse and move away/return to home
     function moveTriangle() {
-        const distX = randomX - mouseX;
-        const distY = randomY - mouseY;
+        const distX = currentX - mouseX;
+        const distY = currentY - mouseY;
         const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
 
-        // Less intense movement (small ripple effect)
-        const moveFactor = Math.max(150 - distance, 0) / 40; // Adjust intensity and sensitivity
+        // Define how far the mouse needs to be to start moving the triangle (inverted logic)
+        const moveDistance = 300 - size; // Larger triangles start moving earlier, smaller ones let the mouse get closer
 
-        // Apply movement based on direction away from the mouse
-        randomX += distX * moveFactor;
-        randomY += distY * moveFactor;
+        if (distance < moveDistance) {
+            // Move triangle away from mouse when close
+            const moveFactor = (moveDistance - distance) / moveDistance; // Move intensity
+            currentX += distX * moveFactor * 0.1; // 0.1 factor to control movement speed
+            currentY += distY * moveFactor * 0.1;
+        } else {
+            // Slide triangle back to its original (home) position when far away
+            currentX += (homeX - currentX) * 0.05; // 0.05 is the "spring-back" speed
+            currentY += (homeY - currentY) * 0.05;
+        }
 
-        triangle.style.left = `${randomX}px`;
-        triangle.style.top = `${randomY}px`;
+        triangle.style.left = `${currentX}px`;
+        triangle.style.top = `${currentY}px`;
 
         // Repeat movement
         requestAnimationFrame(moveTriangle);
