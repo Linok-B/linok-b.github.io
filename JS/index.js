@@ -63,16 +63,19 @@ function createTriangle() {
     triangle.style.left = `${currentX}px`;
     triangle.style.top = `${currentY}px`;
 
-    // Set rotation and direction using JavaScript
+    // Set random initial rotation (0º - 360º)
+    let angle = Math.random() * 360;
+    triangle.style.transform = `rotate(${angle}deg)`;
+
+    // Set rotation direction and speed
     const isClockwise = Math.random() < 0.5; // Randomly decide direction
     const rotateSpeed = Math.random() * 15 + 10; // Slow spin between 10s and 25s
     const rotationDirection = isClockwise ? 1 : -1; // 1 for clockwise, -1 for counterclockwise
 
-    // Apply rotation using JavaScript
-    let angle = 0;
+    // Apply continuous rotation
     setInterval(() => {
         angle += rotationDirection * 0.1; // Rotate slowly
-        triangle.style.transform = `rotate(${angle}deg)`;
+        triangle.style.transform = `rotate(${angle}deg)`; // Update the angle dynamically
     }, 16); // 16ms for ~60fps rotation
 
     // Continuously check distance from mouse and move away/return to home
