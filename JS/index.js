@@ -34,8 +34,8 @@ let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
 
 window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    mouseX = e.clientX + window.scrollX; // Adjust mouseX by the current scroll position
+    mouseY = e.clientY + window.scrollY; // Adjust mouseY by the current scroll position
 });
 
 // Triangle generation and animation
@@ -80,8 +80,12 @@ function createTriangle() {
 
     // Continuously check distance from mouse and move away/return to home
     function moveTriangle() {
-        const distX = currentX - mouseX;
-        const distY = currentY - mouseY;
+        const triangleRect = triangle.getBoundingClientRect(); // Get triangle's position relative to viewport
+        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Adjust by scroll position
+        const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
+
+        const distX = triangleX - mouseX;
+        const distY = triangleY - mouseY;
         const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
 
         // Larger triangles move when the mouse is further away (increase with size)
