@@ -29,13 +29,26 @@ function closeInfoBoxes() {
     overlay.classList.remove('active');
 }
 
-// Track mouse position
+// Track mouse position and scroll position
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
+let scrollX = window.scrollX;
+let scrollY = window.scrollY;
 
+// Update mouse coordinates on mouse movement
 window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX + window.scrollX; // Adjust mouseX by the current scroll position
-    mouseY = e.clientY + window.scrollY; // Adjust mouseY by the current scroll position
+    mouseX = e.clientX + scrollX; // Adjust by the current scroll position
+    mouseY = e.clientY + scrollY;
+});
+
+// Update scroll coordinates when scrolling
+window.addEventListener('scroll', () => {
+    scrollX = window.scrollX;
+    scrollY = window.scrollY;
+
+    // Update mouse coordinates to account for scroll (in case the mouse is still)
+    mouseX = mouseX + scrollX - window.scrollX;
+    mouseY = mouseY + scrollY - window.scrollY;
 });
 
 // Triangle generation and animation
@@ -81,8 +94,8 @@ function createTriangle() {
     // Continuously check distance from mouse and move away/return to home
     function moveTriangle() {
         const triangleRect = triangle.getBoundingClientRect(); // Get triangle's position relative to viewport
-        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Adjust by scroll position
-        const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
+        const triangleX = triangleRect.left + triangleRect.width / 2 + scrollX; // Adjust by scroll position
+        const triangleY = triangleRect.top + triangleRect.height / 2 + scrollY;
 
         const distX = triangleX - mouseX;
         const distY = triangleY - mouseY;
