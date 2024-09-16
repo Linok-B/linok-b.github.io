@@ -22,19 +22,13 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-function closeInfoBoxes() {
-    infoBoxes.forEach(box => {
-        box.classList.remove('active');
-    });
-    overlay.classList.remove('active');
-}
-
-// Track mouse position (relative to document, including scroll)
+// Track mouse position (relative to document)
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
 
+// Update mouse coordinates on mouse movement
 window.addEventListener('mousemove', (e) => {
-    mouseX = e.pageX;  // Mouse position relative to the document, not just the viewport
+    mouseX = e.pageX;  // Mouse position relative to the document
     mouseY = e.pageY;
 });
 
@@ -78,8 +72,8 @@ function createTriangle() {
         triangle.style.transform = `rotate(${angle}deg)`; // Update the angle dynamically
     }, 16); // 16ms for ~60fps rotation
 
-    // Continuously check distance from mouse and move away/return to home
-    function moveTriangle() {
+    // Function to update triangle movement based on mouse and scroll position
+    function updateTrianglePosition() {
         const triangleRect = triangle.getBoundingClientRect(); // Get triangle's position relative to viewport
         const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Adjust by scroll position
         const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
@@ -104,13 +98,19 @@ function createTriangle() {
 
         triangle.style.left = `${currentX}px`;
         triangle.style.top = `${currentY}px`;
+    }
 
-        // Repeat movement
-        requestAnimationFrame(moveTriangle);
+    // Continuously update triangle movement on both mouse move and scroll
+    function moveTriangle() {
+        updateTrianglePosition();
+        requestAnimationFrame(moveTriangle); // Keep updating
     }
 
     // Start triangle movement
     moveTriangle();
+
+    // Ensure the triangle position is updated on scroll too
+    window.addEventListener('scroll', updateTrianglePosition);
 
     heroSection.appendChild(triangle);
 }
