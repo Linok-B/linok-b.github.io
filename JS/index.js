@@ -22,7 +22,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Track mouse position (relative to document)
+// Track mouse position (relative to the document)
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
 
@@ -103,15 +103,13 @@ function createTriangle() {
     // Continuously update triangle movement on both mouse move and scroll
     function moveTriangle() {
         updateTrianglePosition();
-        requestAnimationFrame(moveTriangle); // Keep updating
+        requestAnimationFrame(moveTriangle); // Keep updating each frame
     }
 
     // Start triangle movement
     moveTriangle();
 
-    // Ensure the triangle position is updated on scroll too
-    window.addEventListener('scroll', updateTrianglePosition);
-
+    // Append the triangle to the hero section
     heroSection.appendChild(triangle);
 }
 
