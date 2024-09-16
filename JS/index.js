@@ -25,8 +25,8 @@ document.addEventListener('keydown', (e) => {
 // Track mouse position (relative to the document)
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
-let scrollX = window.scrollX;
-let scrollY = window.scrollY;
+let scrollX = window.scrollX;  // Initialize scrollX
+let scrollY = window.scrollY;  // Initialize scrollY
 
 // Update mouse coordinates on mouse movement
 window.addEventListener('mousemove', (e) => {
@@ -38,6 +38,9 @@ window.addEventListener('mousemove', (e) => {
 window.addEventListener('scroll', () => {
     scrollX = window.scrollX;
     scrollY = window.scrollY;
+
+    // Force an update on triangle positions when scrolling
+    updateAllTriangles();  // Added this function to update all triangles on scroll
 });
 
 // Triangle generation and animation
@@ -83,8 +86,8 @@ function createTriangle() {
     // Function to update triangle movement based on mouse and scroll position
     function updateTrianglePosition() {
         const triangleRect = triangle.getBoundingClientRect(); // Get triangle's position relative to viewport
-        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Adjust by scroll position
-        const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
+        const triangleX = triangleRect.left + triangleRect.width / 2 + scrollX; // Adjust by current scroll position
+        const triangleY = triangleRect.top + triangleRect.height / 2 + scrollY;
 
         const distX = triangleX - mouseX;
         const distY = triangleY - mouseY;
@@ -108,21 +111,28 @@ function createTriangle() {
         triangle.style.top = `${currentY}px`;
     }
 
-    // Continuously update triangle movement on both mouse move and scroll
+    // Start triangle movement
     function moveTriangle() {
         updateTrianglePosition();
         requestAnimationFrame(moveTriangle); // Keep updating each frame
     }
 
-    // Start triangle movement
     moveTriangle();
 
-    // Append the triangle to the hero section
-    heroSection.appendChild(triangle);
+    // Return the update function for use during scroll
+    return updateTrianglePosition;
 }
 
 // Generate a random number of triangles between 8 and 16
+const triangles = [];
 const triangleCount = Math.floor(Math.random() * 9) + 8;
+
 for (let i = 0; i < triangleCount; i++) {
-    createTriangle();
+    const updateFunction = createTriangle();
+    triangles.push(updateFunction);  // Store each triangle's update function
+}
+
+// Function to update all triangles when scrolling
+function updateAllTriangles() {
+    triangles.forEach(update => update());  // Call each triangle's update function on scroll
 }
