@@ -25,11 +25,19 @@ document.addEventListener('keydown', (e) => {
 // Track mouse position (relative to the document)
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
+let scrollX = window.scrollX;
+let scrollY = window.scrollY;
 
 // Update mouse coordinates on mouse movement
 window.addEventListener('mousemove', (e) => {
     mouseX = e.pageX;  // Mouse position relative to the document
     mouseY = e.pageY;
+});
+
+// Track scroll position changes
+window.addEventListener('scroll', () => {
+    scrollX = window.scrollX;
+    scrollY = window.scrollY;
 });
 
 // Triangle generation and animation
