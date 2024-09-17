@@ -22,100 +22,102 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Track mouse position (relative to the document)
+function closeInfoBoxes() {
+    infoBoxes.forEach(box => {
+        box.classList.remove('active');
+    });
+    overlay.classList.remove('active');
+}
+
+// ---- REWORKED TRIANGLE INTERACTION CODE ----
+
+// Track mouse position relative to the document (so it works with scroll)
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
-let scrollX = window.scrollX;
-let scrollY = window.scrollY;
 
-// Update mouse coordinates on mouse movement
+// Update mouse position on mousemove
 window.addEventListener('mousemove', (e) => {
-    mouseX = e.pageX;  // Mouse position relative to the document
+    mouseX = e.pageX;
     mouseY = e.pageY;
 });
 
-// Track scroll position changes
-window.addEventListener('scroll', () => {
-    scrollX = window.scrollX;
-    scrollY = window.scrollY;
-});
-
-// Triangle generation and animation
+// Triangle generation and interaction logic
 const heroSection = document.querySelector('.triangle-container');
 
-// Generate random triangles
+// Generate random triangles and handle their behavior
 function createTriangle() {
     const triangle = document.createElement('div');
     triangle.classList.add('triangle');
     
-    // Random size and initial position (home position)
+    // Random size for each triangle
     const size = Math.random() * 150 + 50; // Size between 50px and 200px
+
+    // Set initial home position for the triangle (within the viewport)
     const homeX = Math.random() * window.innerWidth;
     const homeY = Math.random() * window.innerHeight;
 
+    // Initialize the triangle's styles
     triangle.style.width = `0px`;
     triangle.style.height = `0px`;
     triangle.style.borderLeft = `${size / 2}px solid transparent`;
     triangle.style.borderRight = `${size / 2}px solid transparent`;
     triangle.style.borderBottom = `${size}px solid rgba(255, 255, 255, 0.2)`;
-
-    let currentX = homeX; // Current position starts at home position
-    let currentY = homeY;
     triangle.style.position = 'absolute';
-    triangle.style.left = `${currentX}px`;
-    triangle.style.top = `${currentY}px`;
+    triangle.style.left = `${homeX}px`;
+    triangle.style.top = `${homeY}px`;
 
-    // Set random initial rotation (0º - 360º)
+    // Random initial rotation
     let angle = Math.random() * 360;
     triangle.style.transform = `rotate(${angle}deg)`;
 
-    // Set rotation direction and speed
-    const isClockwise = Math.random() < 0.5; // Randomly decide direction
-    const rotateSpeed = Math.random() * 15 + 10; // Slow spin between 10s and 25s
-    const rotationDirection = isClockwise ? 1 : -1; // 1 for clockwise, -1 for counterclockwise
+    // Random direction and speed of rotation
+    const isClockwise = Math.random() < 0.5 ? 1 : -1;
+    const rotateSpeed = Math.random() * 15 + 10; // Between 10s and 25s for full rotation
 
-    // Apply continuous rotation
-    setInterval(() => {
-        angle += rotationDirection * 0.1; // Rotate slowly
-        triangle.style.transform = `rotate(${angle}deg)`; // Update the angle dynamically
-    }, 16); // 16ms for ~60fps rotation
+    // Triangle's current position
+    let currentX = homeX;
+    let currentY = homeY;
 
-    // Function to update triangle movement based on mouse and scroll position
-    function updateTrianglePosition() {
-        const triangleRect = triangle.getBoundingClientRect(); // Get triangle's position relative to viewport
-        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Adjust by scroll position
+    // Function to continuously update the triangle's behavior
+    function updateTriangle() {
+        // Calculate the current center of the triangle
+        const triangleRect = triangle.getBoundingClientRect();
+        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX;
         const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
 
+        // Calculate distance between mouse and triangle
         const distX = triangleX - mouseX;
         const distY = triangleY - mouseY;
         const distance = Math.sqrt(distX * distX + distY * distY); // Pythagorean theorem
 
-        // Larger triangles move when the mouse is further away (increase with size)
-        const moveDistance = size * 1.5; // Larger triangles = larger moveDistance
+        // Define interaction distance (larger triangles will react from further away)
+        const moveDistance = size * 2; // Larger triangles = larger move distance
 
+        // If the mouse is within the interaction range, move the triangle away from the mouse
         if (distance < moveDistance) {
-            // Move triangle away from mouse when close
-            const moveFactor = (moveDistance - distance) / moveDistance; // Move intensity
-            currentX += distX * moveFactor * 0.1; // 0.1 factor to control movement speed
+            const moveFactor = (moveDistance - distance) / moveDistance; // The closer the mouse, the stronger the push
+            currentX += distX * moveFactor * 0.1; // Control movement speed
             currentY += distY * moveFactor * 0.1;
         } else {
-            // Slide triangle back to its original (home) position when far away
-            currentX += (homeX - currentX) * 0.05; // 0.05 is the "spring-back" speed
+            // If the mouse is far away, smoothly move the triangle back to its home position
+            currentX += (homeX - currentX) * 0.05; // Smooth "spring-back" motion
             currentY += (homeY - currentY) * 0.05;
         }
 
+        // Apply the movement to the triangle
         triangle.style.left = `${currentX}px`;
         triangle.style.top = `${currentY}px`;
+
+        // Rotate the triangle
+        angle += isClockwise * 0.1; // Slow rotation
+        triangle.style.transform = `rotate(${angle}deg)`;
+
+        // Call updateTriangle again on the next frame
+        requestAnimationFrame(updateTriangle);
     }
 
-    // Continuously update triangle movement on both mouse move and scroll
-    function moveTriangle() {
-        updateTrianglePosition();
-        requestAnimationFrame(moveTriangle); // Keep updating each frame
-    }
-
-    // Start triangle movement
-    moveTriangle();
+    // Start continuously updating the triangle's position and behavior
+    updateTriangle();
 
     // Append the triangle to the hero section
     heroSection.appendChild(triangle);
@@ -126,3 +128,5 @@ const triangleCount = Math.floor(Math.random() * 9) + 8;
 for (let i = 0; i < triangleCount; i++) {
     createTriangle();
 }
+
+// ---- END OF REWORKED TRIANGLE INTERACTION CODE ----
