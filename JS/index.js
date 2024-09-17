@@ -22,13 +22,15 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- REWORKED TRIANGLE INTERACTION WITH MASTER FUNCTION ----
+// ---- SIMULATED MOUSE MOVEMENT ON SCROLL ----
 
 // Global variables for mouse and scroll tracking
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
 let scrollX = window.scrollX;
 let scrollY = window.scrollY;
+let lastMouseMoveX = 0;  // To simulate small mouse movement
+let lastMouseMoveY = 0;
 
 // Function to track mouse position
 function trackMousePosition(e) {
@@ -40,6 +42,15 @@ function trackMousePosition(e) {
 function trackScrollPosition() {
     scrollX = window.scrollX;
     scrollY = window.scrollY;
+
+    // ---- Simulate a tiny mouse movement ----
+    // Adding a very small value to the mouse position to trick the code into updating
+    lastMouseMoveX = (Math.random() - 0.5) * 0.1; // Tiny random movement
+    lastMouseMoveY = (Math.random() - 0.5) * 0.1;
+
+    // "Fake" a tiny mouse movement to simulate interaction
+    mouseX += lastMouseMoveX;
+    mouseY += lastMouseMoveY;
 }
 
 // Main function to handle both mouse and scroll interactions with triangles
@@ -50,11 +61,11 @@ function handleTriangleInteraction(triangle, homeX, homeY, size) {
     const isClockwise = Math.random() < 0.5 ? 1 : -1; // Random rotation direction
     const rotateSpeed = Math.random() * 15 + 10; // Random rotation speed
 
-    // Function to update triangle position based on mouse and scroll data
+    // Function to continuously update the triangle's behavior
     function updateTrianglePosition() {
         const triangleRect = triangle.getBoundingClientRect(); // Triangle's current position
-        const triangleX = triangleRect.left + triangleRect.width / 2 + scrollX;
-        const triangleY = triangleRect.top + triangleRect.height / 2 + scrollY;
+        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX;
+        const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
 
         // Calculate distance between mouse and triangle
         const distX = triangleX - mouseX;
@@ -129,4 +140,4 @@ window.addEventListener('scroll', trackScrollPosition);
 // Initialize the triangle behavior when the page loads
 window.addEventListener('DOMContentLoaded', initTriangleBehavior);
 
-// ---- END OF REWORKED TRIANGLE INTERACTION ----
+// ---- END OF SIMULATED MOUSE MOVEMENT ON SCROLL ----
