@@ -22,7 +22,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- REWORKED LOGIC WITH NEW VARIABLES FOR SCROLL-MOUSE INTEGRATION ----
+// ---- NEW MOUSE & SCROLL HANDLING WITH HERO SECTION ----
 
 // Global variables for mouse and scroll tracking
 let mouseX = window.innerWidth / 2;
@@ -31,6 +31,9 @@ let scrollX = window.scrollX;
 let scrollY = window.scrollY;
 let alphaMouseX = mouseX;  // The new combined mouse + scroll position
 let alphaMouseY = mouseY;
+let isMouseInHero = true; // Track if the mouse is inside the hero section
+
+const heroSection = document.querySelector('.triangle-container'); // The hero section element
 
 // Function to track mouse position
 function trackMousePosition(e) {
@@ -40,6 +43,9 @@ function trackMousePosition(e) {
     // Update alphaMouseX and alphaMouseY with combined data
     alphaMouseX = mouseX + scrollX;
     alphaMouseY = mouseY + scrollY;
+
+    // Check if the mouse is inside the hero section
+    isMouseInHero = e.pageY <= heroSection.offsetHeight;
 }
 
 // Function to track scroll position
@@ -50,6 +56,19 @@ function trackScrollPosition() {
     // Even if the mouse isn't moving, update the alphaMouse variables based on scroll
     alphaMouseX = mouseX + scrollX;
     alphaMouseY = mouseY + scrollY;
+
+    // Check if the mouse is still inside the hero section when scrolling
+    if (mouseY + scrollY <= heroSection.offsetHeight) {
+        isMouseInHero = true;
+    } else {
+        isMouseInHero = false;
+    }
+
+    // If the mouse is outside the hero section, reset alphaMouse position
+    if (!isMouseInHero) {
+        alphaMouseX = scrollX + window.innerWidth / 2;  // Keep the alphaMouse relative to the center of the screen
+        alphaMouseY = scrollY + window.innerHeight / 2;
+    }
 }
 
 // Main function to handle both mouse and scroll interactions with triangles
@@ -139,4 +158,4 @@ window.addEventListener('scroll', trackScrollPosition);
 // Initialize the triangle behavior when the page loads
 window.addEventListener('DOMContentLoaded', initTriangleBehavior);
 
-// ---- END OF REWORKED LOGIC ----
+// ---- END OF NEW MOUSE & SCROLL HANDLING WITH HERO SECTION ----
