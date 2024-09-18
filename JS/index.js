@@ -22,7 +22,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- REWORKED LOGIC WITH NEW VARIABLES FOR SCROLL-MOUSE INTEGRATION ----
+// ---- FIX FOR MOUSE OUTSIDE HERO SECTION AND SCROLL BEHAVIOR ----
 
 // Global variables for mouse and scroll tracking
 let mouseX = window.innerWidth / 2;
@@ -50,6 +50,18 @@ function trackScrollPosition() {
     // Even if the mouse isn't moving, update the alphaMouse variables based on scroll
     alphaMouseX = mouseX + scrollX;
     alphaMouseY = mouseY + scrollY;
+}
+
+// Function to handle mouse leaving the hero section
+function handleMouseOutOfHero() {
+    const heroSection = document.querySelector('.triangle-container');
+    const heroRect = heroSection.getBoundingClientRect();
+
+    // If the real mouse is outside the hero section, continue updating alphaMouse
+    if (mouseY < heroRect.top || mouseY > heroRect.bottom) {
+        alphaMouseX = scrollX + window.innerWidth / 2; // Simulate alphaMouse in the middle
+        alphaMouseY = scrollY + window.innerHeight / 2; // Simulate alphaMouse in the middle
+    }
 }
 
 // Main function to handle both mouse and scroll interactions with triangles
@@ -136,7 +148,10 @@ function initTriangleBehavior() {
 window.addEventListener('mousemove', trackMousePosition);
 window.addEventListener('scroll', trackScrollPosition);
 
+// Check if the mouse is outside the hero section on scroll
+window.addEventListener('scroll', handleMouseOutOfHero);
+
 // Initialize the triangle behavior when the page loads
 window.addEventListener('DOMContentLoaded', initTriangleBehavior);
 
-// ---- END OF REWORKED LOGIC ----
+// ---- END OF FIX ----
