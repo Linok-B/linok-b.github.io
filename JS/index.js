@@ -22,7 +22,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- REWORKED LOGIC WITH MOUSE BOUNDARY CHECK ----
+// ---- REWORKED LOGIC WITH NEW VARIABLES FOR SCROLL-MOUSE INTEGRATION ----
 
 // Global variables for mouse and scroll tracking
 let mouseX = window.innerWidth / 2;
@@ -31,19 +31,11 @@ let scrollX = window.scrollX;
 let scrollY = window.scrollY;
 let alphaMouseX = mouseX;  // The new combined mouse + scroll position
 let alphaMouseY = mouseY;
-let mouseInHero = true;    // Variable to track if the mouse is in the hero section
 
 // Function to track mouse position
 function trackMousePosition(e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
-
-    // Check if the mouse is in the hero section
-    if (e.target.closest('.triangle-container')) {
-        mouseInHero = true; // Mouse is in the hero section
-    } else {
-        mouseInHero = false; // Mouse is outside the hero section
-    }
 
     // Update alphaMouseX and alphaMouseY with combined data
     alphaMouseX = mouseX + scrollX;
@@ -58,17 +50,6 @@ function trackScrollPosition() {
     // Even if the mouse isn't moving, update the alphaMouse variables based on scroll
     alphaMouseX = mouseX + scrollX;
     alphaMouseY = mouseY + scrollY;
-
-    // ---- Fix: If the mouse is outside the hero section, still update triangle interaction ----
-    if (!mouseInHero) {
-        const heroSection = document.querySelector('.triangle-container');
-        const heroRect = heroSection.getBoundingClientRect();
-
-        // Check if the scroll brings the hero section back into view
-        if (heroRect.top <= window.innerHeight && heroRect.bottom >= 0) {
-            mouseInHero = true; // If the hero section is visible again, re-enable interaction
-        }
-    }
 }
 
 // Main function to handle both mouse and scroll interactions with triangles
@@ -82,8 +63,8 @@ function handleTriangleInteraction(triangle, homeX, homeY, size) {
     // Function to continuously update the triangle's behavior
     function updateTrianglePosition() {
         const triangleRect = triangle.getBoundingClientRect(); // Triangle's current position relative to viewport
-        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Triangle's absolute position on page
-        const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
+        const triangleX = triangleRect.left + triangleRect.width / 2 + scrollX; // Triangle's absolute position on page
+        const triangleY = triangleRect.top + triangleRect.height / 2 + scrollY;
 
         // Calculate distance between the combined mouse position (alphaMouse) and triangle
         const distX = triangleX - alphaMouseX;
