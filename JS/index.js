@@ -22,7 +22,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- NEW MOUSE & SCROLL HANDLING WITH HERO SECTION ----
+// ---- REWORKED LOGIC WITH MOUSE BOUNDARY CHECK ----
 
 // Global variables for mouse and scroll tracking
 let mouseX = window.innerWidth / 2;
@@ -31,21 +31,23 @@ let scrollX = window.scrollX;
 let scrollY = window.scrollY;
 let alphaMouseX = mouseX;  // The new combined mouse + scroll position
 let alphaMouseY = mouseY;
-let isMouseInHero = true; // Track if the mouse is inside the hero section
-
-const heroSection = document.querySelector('.triangle-container'); // The hero section element
+let mouseInHero = true;    // Variable to track if the mouse is in the hero section
 
 // Function to track mouse position
 function trackMousePosition(e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
 
+    // Check if the mouse is in the hero section
+    if (e.target.closest('.triangle-container')) {
+        mouseInHero = true; // Mouse is in the hero section
+    } else {
+        mouseInHero = false; // Mouse is outside the hero section
+    }
+
     // Update alphaMouseX and alphaMouseY with combined data
     alphaMouseX = mouseX + scrollX;
     alphaMouseY = mouseY + scrollY;
-
-    // Check if the mouse is inside the hero section
-    isMouseInHero = e.pageY <= heroSection.offsetHeight;
 }
 
 // Function to track scroll position
@@ -57,17 +59,15 @@ function trackScrollPosition() {
     alphaMouseX = mouseX + scrollX;
     alphaMouseY = mouseY + scrollY;
 
-    // Check if the mouse is still inside the hero section when scrolling
-    if (mouseY + scrollY <= heroSection.offsetHeight) {
-        isMouseInHero = true;
-    } else {
-        isMouseInHero = false;
-    }
+    // ---- Fix: If the mouse is outside the hero section, still update triangle interaction ----
+    if (!mouseInHero) {
+        const heroSection = document.querySelector('.triangle-container');
+        const heroRect = heroSection.getBoundingClientRect();
 
-    // If the mouse is outside the hero section, reset alphaMouse position
-    if (!isMouseInHero) {
-        alphaMouseX = scrollX + window.innerWidth / 2;  // Keep the alphaMouse relative to the center of the screen
-        alphaMouseY = scrollY + window.innerHeight / 2;
+        // Check if the scroll brings the hero section back into view
+        if (heroRect.top <= window.innerHeight && heroRect.bottom >= 0) {
+            mouseInHero = true; // If the hero section is visible again, re-enable interaction
+        }
     }
 }
 
@@ -82,8 +82,8 @@ function handleTriangleInteraction(triangle, homeX, homeY, size) {
     // Function to continuously update the triangle's behavior
     function updateTrianglePosition() {
         const triangleRect = triangle.getBoundingClientRect(); // Triangle's current position relative to viewport
-        const triangleX = triangleRect.left + triangleRect.width / 2 + scrollX; // Triangle's absolute position on page
-        const triangleY = triangleRect.top + triangleRect.height / 2 + scrollY;
+        const triangleX = triangleRect.left + triangleRect.width / 2 + window.scrollX; // Triangle's absolute position on page
+        const triangleY = triangleRect.top + triangleRect.height / 2 + window.scrollY;
 
         // Calculate distance between the combined mouse position (alphaMouse) and triangle
         const distX = triangleX - alphaMouseX;
@@ -158,4 +158,4 @@ window.addEventListener('scroll', trackScrollPosition);
 // Initialize the triangle behavior when the page loads
 window.addEventListener('DOMContentLoaded', initTriangleBehavior);
 
-// ---- END OF NEW MOUSE & SCROLL HANDLING WITH HERO SECTION ----
+// ---- END OF REWORKED LOGIC ----
